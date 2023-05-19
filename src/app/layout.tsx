@@ -1,6 +1,6 @@
-import SupabaseListener from './auth/supabase-listener';
-import SupabaseProvider from './auth/supabase-provider';
-import { createServerClient } from './auth/supabase-server';
+import SupabaseListener from './lib/supabase-listener';
+import SupabaseProvider from './lib/supabase-provider';
+import { createServerClient } from './lib/supabase-server';
 import Navbar from './components/Navbar'
 import './globals.css'
 

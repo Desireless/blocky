@@ -1,11 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSupabase } from '../lib/supabase-provider';
+import { useRouter } from 'next/navigation';
 
 function Navbar() {
+
+    const {supabase, session} = useSupabase();
+    const router = useRouter();
+
     const check = () => {
-        console.log("session");
+        console.log("session: ", session);
+
     }
+
+    async function signOut() {
+        await supabase.auth.signOut();
+        router.push('/');
+    }
+
+    useEffect(() => {
+        if(!session) {
+            router.push('/');
+        }
+    }, [session])
+
   return (
     <>
         <div className="px-8 mx-auto max-w-7xl">
@@ -29,26 +49,28 @@ function Navbar() {
                     </div>
                     <div className="block">
                         <div className="flex -mr-2 md:block">
-
-                                
-                                    <>
+                            {session ?(
+                                <div>
                                         <span className="text-white  px-3 py-2 rounded-md text-md font-medium cursor-default">
-                                            Usuario
+                                            {session.user?.email}
                                         </span>
+
                                         <span className="text-white hover:text-red-600 px-3 py-2 rounded-md text-md font-medium cursor-pointer" 
-                                        >
+                                        onClick={signOut}>
                                             Log out
                                         </span>
-                                    </>
-                                
-                                
-                                
-                             
+
+                                </div>
+                            ):(
+
                                 <Link href="/login">
                                     <span className="text-white hover:text-violet-900 px-3 py-2 rounded-md text-md font-medium cursor-pointer">
                                             Iniciar sesión
                                     </span>
                                 </Link>
+                            )}
+                                                                                                       
+                             
                             
                                 
                             
